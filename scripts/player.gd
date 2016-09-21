@@ -22,6 +22,11 @@ func _ready():
 
 func _fixed_process(delta):
 	get_node("Sprite").set_pos(Vector2(OS.get_window_size().x/2,OS.get_window_size().y/2))
+	get_node("WaterBlue").set_scale(Vector2(OS.get_window_size().x,OS.get_window_size().y))
+	if(get_translation().y<(3-1.9)):
+		get_node("WaterBlue").show()
+	else:
+		get_node("WaterBlue").hide()
 	fps.set_text("FPS: "+var2str(OS.get_frames_per_second()))
 	rotate_y(relx*delta*0.1)
 	camera.rotate_x(rely*delta*0.1)

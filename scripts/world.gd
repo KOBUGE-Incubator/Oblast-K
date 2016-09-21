@@ -14,4 +14,3 @@ func spawnBullet(trf,trn,rot):
 	node.direction(trf,rot)
 	add_child(node)
 	shot=true
-	

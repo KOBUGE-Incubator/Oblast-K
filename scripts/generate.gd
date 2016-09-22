@@ -12,7 +12,7 @@ var posy=0
 var gridsize=1
 
 func _ready():
-	generate_terrain(4,0,1024)
+	generate_terrain(2,0,1024)
 
 func generate_terrain(gridsize, min_distance, max_distance):
 	var surfTool = SurfaceTool.new()
@@ -54,7 +54,7 @@ func height_value(x, y):
 		return heightmap.get_pixel(x,y).v*20
 
 func randomTree(x, y):
-	if(randi()%20==0 && height_value(x,y)>5):
+	if(randi()%40==0 && height_value(x,y)>5):
 		var node=tree.instance()
 		node.rotate_y(2*PI/(randi()%7))
 		node.set_translation(Vector3(x,height_value(x,y),y))

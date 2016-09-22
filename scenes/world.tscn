@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://textures/map.png" type="Texture" id=4]
 [ext_resource path="res://textures/grass.png" type="Texture" id=5]
 [ext_resource path="res://scenes/hangar.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/vehicle.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Environment" id=1]
 
@@ -116,6 +117,7 @@ geometry/cast_shadow = 1
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 0, -0.0951104, 0 )
+visibility/visible = false
 layers = 1
 geometry/visible = true
 geometry/material_override = null
@@ -196,5 +198,9 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 221.004, 4, 170 )
 [node name="HangarBuilding1" parent="." instance=ExtResource( 6 )]
 
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 221.004, 4, 183.121 )
+
+[node name="Spatial" parent="." instance=ExtResource( 7 )]
+
+transform/local = Transform( 0.0608564, 0, -0.998147, 0, 1, 0, 0.998147, 0, 0.0608564, 224.913, 4.0548, 175.452 )
 
 

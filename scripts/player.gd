@@ -44,18 +44,22 @@ func _fixed_process(delta):
 		#Accel:
 		if(Input.is_key_pressed(KEY_W)):
 			currentvehicle.set_engine_force(40)
-		#Steering:
-		if(Input.is_key_pressed(KEY_A)):
-			currentvehicle.set_steering(-0.2)
-		elif(Input.is_key_pressed(KEY_D)):
-			currentvehicle.set_steering(0.2)
-		else:
-			currentvehicle.set_steering(0)
-		#Brake
-		if(Input.is_key_pressed(KEY_S)):
+		elif(Input.is_key_pressed(KEY_S)):
 			currentvehicle.set_engine_force(-40)
+		else:
+			currentvehicle.set_engine_force(0)
+		
+		#Steering:
+		if(Input.is_key_pressed(KEY_A)&&currentvehicle.get_steering()>-0.5):
+			currentvehicle.set_steering(currentvehicle.get_steering()-delta*0.3)
+		elif(Input.is_key_pressed(KEY_D)&&currentvehicle.get_steering()<0.5):
+			currentvehicle.set_steering(currentvehicle.get_steering()+delta*0.3)
+		else:
+			currentvehicle.set_steering(currentvehicle.get_steering()-sign(currentvehicle.get_steering())*delta)
+
 		#Exit vehicle
 		if(Input.is_key_pressed(KEY_R)):
+			set_translation(currentvehicle.get_translation()+Vector3(0,3,0))
 			vehicle=false
 			currentvehicle.set_engine_force(0)
 			set_collision_mask(2)
@@ -103,7 +107,7 @@ func _input(event):
 		relx=event.relative_x
 		rely=event.relative_y
 	if(event.type == InputEvent.MOUSE_BUTTON):
-		if(event.pressed==true && event.button_index==BUTTON_LEFT):
+		if(event.pressed==true && event.button_index==BUTTON_LEFT && vehicle==false):
 			get_parent().spawnBullet(get_transform(), get_translation()+camera.get_translation(), camera.get_rotation().x)
 		elif(event.pressed==true && event.button_index==BUTTON_RIGHT):
 			camera.set_perspective(39,0.1,viewrange)

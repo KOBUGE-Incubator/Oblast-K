@@ -5,6 +5,7 @@ onready var camera = get_node("Camera")
 onready var ground = get_node("RayCast")
 onready var fps = get_node("FPS")
 onready var vcoll = get_node("Camera/VehicleRay")
+onready var structures = get_parent().get_node("Structures")
 var currentvehicle
 
 const viewrange = 4096
@@ -18,6 +19,7 @@ var movement = Vector3(0,0,0)
 var vehicle = false
 
 func _ready():
+	set_transform(get_node("/root/global").spawn)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	ground.add_exception(self)
 	set_fixed_process(true)
@@ -35,11 +37,20 @@ func _fixed_process(delta):
 	if(vehicle==false):
 		walk(delta)
 	if(vehicle==false && vcoll.is_colliding()):
-		if(vcoll.get_collider().has_node("WheelFR") && Input.is_key_pressed(KEY_F)):
+		if(vcoll.get_collider().has_node("WheelFR")||vcoll.get_collider().has_node("BuildingMesh")):
+			get_node("Label").show()
+		if(vcoll.get_collider().has_node("WheelFR") && Input.is_key_pressed(KEY_F)): #Enter the vehicle
 			currentvehicle=vcoll.get_collider()
 			currentvehicle.get_node("Camera").make_current()
 			set_collision_mask(0)
 			vehicle=true
+		elif(vcoll.get_collider().has_node("BuildingMesh")&& Input.is_key_pressed(KEY_F)): #Edit the current building
+			get_node("/root/global").spawn=get_transform()
+			structures.check_edited(vcoll.get_collider())
+			get_tree().change_scene("res://scenes/building.tscn")
+	else:
+			get_node("Label").hide()
+	
 	if(vehicle==true):
 		#Accel:
 		if(Input.is_key_pressed(KEY_W)):

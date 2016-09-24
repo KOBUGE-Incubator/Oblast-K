@@ -6,4 +6,5 @@ Oblast-K is a game that is currently in development.
 ## Controls
 Walk with WASD, look around with mouse.
 Enter vehicles with F, leave again with R
-
+Edit building interior with F, leave editing screen with R
+While in building mode, click to add and remove devices.

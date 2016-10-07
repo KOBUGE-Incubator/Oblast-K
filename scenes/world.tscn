@@ -5,18 +5,18 @@
 [ext_resource path="res://scenes/terrain.tscn" type="PackedScene" id=3]
 [ext_resource path="res://textures/map.png" type="Texture" id=4]
 [ext_resource path="res://textures/grass.png" type="Texture" id=5]
-[ext_resource path="res://scenes/vehicle.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/structures.gd" type="Script" id=7]
-[ext_resource path="res://scenes/hangar.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/structures.gd" type="Script" id=6]
+[ext_resource path="res://scenes/hangar.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/truck.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Environment" id=1]
 
 ambient_light/enabled = false
 ambient_light/color = Color( 0, 0.0625, 1, 1 )
-ambient_light/energy = 1.0
+ambient_light/energy = 0.0
 fxaa/enabled = false
 background/mode = 2
-background/color = Color( 0.345154, 0.595744, 0.761719, 1 )
+background/color = Color( 0.468964, 0.755517, 0.945312, 1 )
 background/energy = 1.0
 background/scale = 1.0
 background/glow = 0.0
@@ -70,7 +70,7 @@ layers = 1
 params/enabled = true
 params/editor_only = false
 params/bake_mode = 3
-params/energy = 1.0
+params/energy = 0.2
 colors/diffuse = Color( 1, 1, 1, 1 )
 colors/specular = Color( 1, 1, 1, 1 )
 shadow/shadow = true
@@ -94,7 +94,7 @@ layers = 1
 params/enabled = true
 params/editor_only = false
 params/bake_mode = 3
-params/energy = 0.3
+params/energy = 1.0
 colors/diffuse = Color( 1, 1, 1, 1 )
 colors/specular = Color( 1, 1, 1, 1 )
 shadow/shadow = false
@@ -113,6 +113,7 @@ shadow/zoffset_scale = 0.0
 [node name="Terrain" parent="." instance=ExtResource( 3 )]
 
 geometry/cast_shadow = 1
+geometry/receive_shadows = true
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 
@@ -192,21 +193,26 @@ region_rect = Rect2( 0, 0, 0, 0 )
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 environment = SubResource( 1 )
 
-[node name="Vehicle" parent="." instance=ExtResource( 6 )]
-
-transform/local = Transform( 0.0608564, 0, -0.998147, 0, 1, 0, 0.998147, 0, 0.0608564, 224.913, 4.0548, 175.452 )
-
 [node name="Structures" type="Spatial" parent="."]
 
+editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-script/script = ExtResource( 7 )
+script/script = ExtResource( 6 )
 
-[node name="HangarBuilding" parent="Structures" instance=ExtResource( 8 )]
+[node name="HangarBuilding" parent="Structures" instance=ExtResource( 7 )]
 
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 221.004, 4, 170 )
 
-[node name="HangarBuilding1" parent="Structures" instance=ExtResource( 8 )]
+[node name="HangarBuilding1" parent="Structures" instance=ExtResource( 7 )]
 
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 221.004, 4, 183.121 )
+
+[node name="Truck1" parent="." instance=ExtResource( 8 )]
+
+transform/local = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 226.441, 4.26538, 188.138 )
+
+[node name="Truck2" parent="." instance=ExtResource( 8 )]
+
+transform/local = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 226.441, 4.26538, 175.543 )
 
 

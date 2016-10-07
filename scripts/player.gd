@@ -35,11 +35,12 @@ func _fixed_process(delta):
 	fps.set_text("FPS: "+var2str(OS.get_frames_per_second()))
 	
 	if(vehicle==false):
+		set_layer_mask(2)
 		walk(delta)
 	if(vehicle==false && vcoll.is_colliding()):
-		if(vcoll.get_collider().has_node("WheelFR")||vcoll.get_collider().has_node("BuildingMesh")):
+		if(vcoll.get_collider().has_node("Vehicle")||vcoll.get_collider().has_node("BuildingMesh")):
 			get_node("Label").show()
-		if(vcoll.get_collider().has_node("WheelFR") && Input.is_key_pressed(KEY_F)): #Enter the vehicle
+		if(vcoll.get_collider().has_node("Vehicle") && Input.is_key_pressed(KEY_F)): #Enter the vehicle
 			currentvehicle=vcoll.get_collider()
 			currentvehicle.get_node("Camera").make_current()
 			set_collision_mask(0)
@@ -52,29 +53,22 @@ func _fixed_process(delta):
 			get_node("Label").hide()
 	
 	if(vehicle==true):
-		#Accel:
-		if(Input.is_key_pressed(KEY_W)):
-			currentvehicle.set_engine_force(40)
-		elif(Input.is_key_pressed(KEY_S)):
-			currentvehicle.set_engine_force(-40)
-		else:
-			currentvehicle.set_engine_force(0)
-		
-		#Steering:
-		if(Input.is_key_pressed(KEY_A)&&currentvehicle.get_steering()>-0.5):
-			currentvehicle.set_steering(currentvehicle.get_steering()-delta*0.3)
-		elif(Input.is_key_pressed(KEY_D)&&currentvehicle.get_steering()<0.5):
-			currentvehicle.set_steering(currentvehicle.get_steering()+delta*0.3)
-		else:
-			currentvehicle.set_steering(currentvehicle.get_steering()-sign(currentvehicle.get_steering())*delta)
-
-		#Exit vehicle
+		currentvehicle.enabled=true
+		set_layer_mask(0)
+		currentvehicle.get_node("Camera").rotate_x(rely*delta*0.1)
+		currentvehicle.get_node("Camera").rotate_y(relx*delta*0.1)
+		relx=0
+		rely=0
 		if(Input.is_key_pressed(KEY_R)):
 			set_translation(currentvehicle.get_translation()+Vector3(0,3,0))
 			vehicle=false
 			currentvehicle.set_engine_force(0)
+			currentvehicle.set_brake(0.5)
 			set_collision_mask(2)
 			camera.make_current()
+			currentvehicle.enabled=false
+			
+	
 
 
 func walk(delta):

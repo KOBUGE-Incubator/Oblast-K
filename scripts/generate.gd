@@ -1,27 +1,31 @@
 
 extends Spatial
 
-onready var mesh = Mesh.new()
-
-onready var tree = preload("res://scenes/tree.tscn")
-var heightmap = load("res://textures/map.png").get_data()
+var heightmapimg = Image()
+var heightmap
 
 var posx=0
 var posy=0
 
-var gridsize=1
+var width = 256
+var height = 256
+
 
 func _ready():
-	generate_terrain(2,0,1024)
+	heightmapimg.load("res://scenery/map2.png")
+	heightmap=heightmapimg.get_data()
+	
+	generate_terrain(1, 3, 256, 256)
 
-func generate_terrain(gridsize, min_distance, max_distance):
+func generate_terrain(gridsize, steps, dim, size):
+	var mesh = Mesh.new()
+	var tile = MeshInstance.new()
 	var surfTool = SurfaceTool.new()
-	surfTool.begin(VS.PRIMITIVE_TRIANGLES)
+	surfTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	posx=0
-	while(posx<heightmap.get_width()):
+	while(posx<width):
 		posy=0
-		while(posy<heightmap.get_height()):
-			randomTree(posx, posy)
+		while(posy<height):
 			#1st half
 			surfTool.add_uv(Vector2(0,0))
 			surfTool.add_vertex(Vector3(posx, height_value(posx, posy), posy))
@@ -29,7 +33,7 @@ func generate_terrain(gridsize, min_distance, max_distance):
 			surfTool.add_vertex(Vector3(posx+gridsize, height_value(posx+gridsize, posy), posy))
 			surfTool.add_uv(Vector2(1,1))
 			surfTool.add_vertex(Vector3(posx+gridsize, height_value(posx+gridsize, posy+gridsize), posy+gridsize))
-
+			
 			#2nd half
 			surfTool.add_uv(Vector2(1,1))
 			surfTool.add_vertex(Vector3(posx+gridsize, height_value(posx+gridsize, posy+gridsize), posy+gridsize))
@@ -40,22 +44,30 @@ func generate_terrain(gridsize, min_distance, max_distance):
 			posy+=gridsize
 		posx+=gridsize
 	posx=0
+	
 	surfTool.generate_normals()
 	surfTool.index()
 	surfTool.commit(mesh)
 	set_mesh(mesh)
 	create_trimesh_collision()
-	get_child(get_child_count()-1).set_layer_mask(3)
 
 func height_value(x, y):
-	if(x<0||y<0||x>=heightmap.get_width()||y>=heightmap.get_height()):
-		return 0
-	else:
-		return heightmap.get_pixel(x,y).v*20
+	#return get_height(x, y) # This will result in an unsmoothed terrain. Leave here for debugging purposes.
+	var smoothHeight = 0
+	smoothHeight += get_height(x-1, y-1)
+	smoothHeight += get_height(x-1, y)
+	smoothHeight += get_height(x-1, y+1)
+	smoothHeight += get_height(x, y-1)
+	smoothHeight += get_height(x, y)
+	smoothHeight += get_height(x, y+1)
+	smoothHeight += get_height(x+1, y-1)
+	smoothHeight += get_height(x+1, y)
+	smoothHeight += get_height(x+1, y+1)
+	return (smoothHeight/9)
 
-func randomTree(x, y):
-	if(randi()%40==0 && height_value(x,y)>5):
-		var node=tree.instance()
-		node.rotate_y(2*PI/(randi()%7))
-		node.set_translation(Vector3(x,height_value(x,y),y))
-		add_child(node)
+func get_height(x, y):
+	if(x>=width):
+		return get_height(0,y)
+	if(y>=height):
+		return get_height(x,0)
+	return heightmap[4*(width*y+x)]/10-5.1

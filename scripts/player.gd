@@ -1,120 +1,86 @@
-
 extends KinematicBody
 
-onready var camera = get_node("Camera")
-onready var ground = get_node("RayCast")
-onready var fps = get_node("FPS")
-onready var vcoll = get_node("Camera/VehicleRay")
-onready var structures = get_parent().get_node("Structures")
-var currentvehicle
-
-const viewrange = 4096
-var rely=0
-var relx=0
-const gravity=-0.5
-var falling=0
-var walk=false
-var mult=1
+var relx = 0 #Relative mouse movement in x direction
+var rely = 0 #Relative mouse movement in y direction
+var sensitivity = 0.1
 var movement = Vector3(0,0,0)
-var vehicle = false
+var gravity = -0.5
+var falling = 0
+var driving = false
+var current_vehicle
 
 func _ready():
-	set_transform(get_node("/root/global").spawn)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	ground.add_exception(self)
+	$Ground.add_exception(self)
+	$Camera/InteractRay.add_exception(self)
 	set_fixed_process(true)
 	set_process_input(true)
 
 func _fixed_process(delta):
-	get_node("Sprite").set_pos(Vector2(OS.get_window_size().x/2,OS.get_window_size().y/2))
-	get_node("WaterBlue").set_scale(Vector2(OS.get_window_size().x,OS.get_window_size().y))
-	if(get_translation().y<(3-1.9)):
-		get_node("WaterBlue").show()
-	else:
-		get_node("WaterBlue").hide()
-	fps.set_text("FPS: "+var2str(OS.get_frames_per_second()))
+	$FPS.set_text("FPS: "+var2str(Engine.get_frames_per_second()))
 	
-	if(vehicle==false):
-		set_layer_mask(2)
-		walk(delta)
-	if(vehicle==false && vcoll.is_colliding()):
-		if(vcoll.get_collider().has_node("Vehicle")||vcoll.get_collider().has_node("BuildingMesh")):
-			get_node("Label").show()
-		if(vcoll.get_collider().has_node("Vehicle") && Input.is_key_pressed(KEY_F)): #Enter the vehicle
-			currentvehicle=vcoll.get_collider()
-			currentvehicle.get_node("Camera").make_current()
-			set_collision_mask(0)
-			vehicle=true
-		elif(vcoll.get_collider().has_node("BuildingMesh")&& Input.is_key_pressed(KEY_F)): #Edit the current building
-			get_node("/root/global").spawn=get_transform()
-			structures.check_edited(vcoll.get_collider())
-			get_tree().change_scene("res://scenes/building.tscn")
-	else:
-			get_node("Label").hide()
-	
-	if(vehicle==true):
-		currentvehicle.enabled=true
-		set_layer_mask(0)
-		currentvehicle.get_node("Camera").rotate_x(rely*delta*0.1)
-		currentvehicle.get_node("Camera").rotate_y(relx*delta*0.1)
-		relx=0
-		rely=0
-		if(Input.is_key_pressed(KEY_R)):
-			set_translation(currentvehicle.get_translation()+Vector3(0,3,0))
-			vehicle=false
-			currentvehicle.set_engine_force(0)
-			currentvehicle.set_brake(0.5)
-			set_collision_mask(2)
-			camera.make_current()
-			currentvehicle.enabled=false
-			
-	
-
-
-func walk(delta):
-	rotate_y(relx*delta*0.1)
-	camera.rotate_x(rely*delta*0.1)
-	relx=0
-	rely=0
-	if(get_rotation().z==0):
-		mult=1
-	else:
-		mult=-1
-	
-	if(Input.is_key_pressed(KEY_W)):
-		movement.z=-delta*4
-	elif(Input.is_key_pressed(KEY_S)):
-		movement.z=delta*2
-	if(Input.is_key_pressed(KEY_A)):
-		movement.x=-delta*2
-	if(Input.is_key_pressed(KEY_D)):
-		movement.x=delta*2
-	if(Input.is_key_pressed(KEY_SHIFT)):
-		movement.z*=1.5
-		movement.x*=1.5
-	if(Input.is_key_pressed(KEY_SPACE)&&ground.is_colliding()):
-		falling=0.1
-	elif(ground.is_colliding()||is_colliding()):
-		falling=0
-	else:
-		falling+=gravity*delta
-	movement = Vector3(0,falling,0)+(get_transform().basis*movement)
-	move(movement)
-	if(is_colliding()):
-		var collnorm=get_collision_normal()
-		movement=collnorm.slide(movement)
-		move(movement)
+	rotate_y(-relx*delta*sensitivity)
+	$Camera.rotate_x(-rely*delta*sensitivity)
 	
 	movement=Vector3(0,0,0)
+	if(driving==false):
+		#Show interaction hint
+		if($Camera/InteractRay.is_colliding() && $Camera/InteractRay.get_collider().is_in_group("interactive")):
+			$Label.show()
+		else:
+			$Label.hide()
+		
+		if(Input.is_key_pressed(KEY_W)):
+			movement.z=-delta*4
+		elif(Input.is_key_pressed(KEY_S)):
+			movement.z=delta*2
+		if(Input.is_key_pressed(KEY_A)):
+			movement.x=-delta*2
+		if(Input.is_key_pressed(KEY_D)):
+			movement.x=delta*2
+		if(Input.is_key_pressed(KEY_SHIFT)):
+			movement.x*=1.5
+			movement.z*=1.5
+		if(Input.is_key_pressed(KEY_SPACE)&&$Ground.is_colliding()):
+			falling=0.1
+		elif($Ground.is_colliding()||is_colliding()):
+			falling=0
+		else:
+			falling+=gravity*delta
+		if(Input.is_key_pressed(KEY_F)&&$Label.is_visible()):
+			$Label.hide()
+			current_vehicle = $Camera/InteractRay.get_collider()
+			add_collision_exception_with(current_vehicle) #Disable collision
+			current_vehicle.enabled=true
+			driving=true
+		
+		movement = Vector3(0, falling, 0)+(get_transform().basis*movement)
+		move(movement)
+		if(is_colliding()):
+			movement=movement.slide(get_collision_normal())
+			move(movement)
+	
+	else:
+		set_translation(current_vehicle.get_node("Driver").get_global_transform().origin)
+		if(Input.is_key_pressed(KEY_R)):
+			current_vehicle.enabled=false
+			driving=false
+			remove_collision_exception_with(current_vehicle) #Enable collision, throws player out of the vehicle
+			#TODO: Exit the vehicle in a more controlled way
+	
+	relx=0
+	rely=0
+
 
 func _input(event):
 	if(event.type == InputEvent.MOUSE_MOTION):
 		relx=event.relative_x
 		rely=event.relative_y
-	if(event.type == InputEvent.MOUSE_BUTTON):
-		if(event.pressed==true && event.button_index==BUTTON_LEFT && vehicle==false):
-			get_parent().spawnBullet(get_transform(), get_translation()+camera.get_translation(), camera.get_rotation().x)
+	elif(event.type == InputEvent.MOUSE_BUTTON):
+		if(event.pressed==true && event.button_index==BUTTON_LEFT):
+			pass
 		elif(event.pressed==true && event.button_index==BUTTON_RIGHT):
-			camera.set_perspective(39,0.1,viewrange)
+			$Camera.set_perspective(39,0.1,3000)
 		elif(event.pressed==false && event.button_index==BUTTON_RIGHT):
-			camera.set_perspective(60,0.1,viewrange)
+			$Camera.set_perspective(60,0.1,3000)
+		

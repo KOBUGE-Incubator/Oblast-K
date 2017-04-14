@@ -1,0 +1,103 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/player.gd" type="Script" id=1]
+[ext_resource path="res://objects/crosshair.png" type="Texture" id=2]
+
+
+[sub_resource type="CapsuleShape" id=1]
+
+radius = 0.270575
+height = 1.54113
+
+[node name="Player" type="KinematicBody"]
+
+input_ray_pickable = true
+input_capture_on_drag = false
+shape_count = 1
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.05435, 0 )
+shapes/0/trigger = false
+collision_layer = 1
+collision_mask = 1
+collide_with/static = true
+collide_with/kinematic = true
+collide_with/rigid = true
+collide_with/character = true
+collision/margin = 0.001
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.05435, 0 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Camera" type="Camera" parent="."]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0 )
+projection = 0
+fov = 60.0
+near = 0.1
+far = 4096.0
+keep_aspect = 1
+current = true
+cull_mask = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+
+[node name="InteractRay" type="RayCast" parent="Camera"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.175844, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -4 )
+layer_mask = 1
+type_mask = 15
+
+[node name="Sprite" type="Sprite" parent="."]
+
+position = Vector2( 960, 540 )
+texture = ExtResource( 2 )
+
+[node name="Ground" type="RayCast" parent="."]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.963183, 0 )
+enabled = true
+cast_to = Vector3( 0, -1, 0 )
+layer_mask = 1
+type_mask = 15
+
+[node name="FPS" type="Label" parent="."]
+
+margin_left = 2.0
+margin_top = 1.0
+margin_right = 118.0
+margin_bottom = 40.0
+rect_clip_content = false
+mouse_filter = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "FPS:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label" type="Label" parent="."]
+
+visible = false
+margin_left = 872.0
+margin_top = 532.0
+margin_right = 1050.0
+margin_bottom = 546.0
+rect_clip_content = false
+mouse_filter = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Press F to interact"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+

@@ -4,7 +4,7 @@ var relx = 0 #Relative mouse movement in x direction
 var rely = 0 #Relative mouse movement in y direction
 var sensitivity = 0.1
 var movement = Vector3(0,0,0)
-var gravity = -0.5
+var gravity = -20
 var falling = 0
 var driving = false
 var current_vehicle
@@ -13,10 +13,10 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Ground.add_exception(self)
 	$Camera/InteractRay.add_exception(self)
-	set_fixed_process(true)
+	set_physics_process(true)
 	set_process_input(true)
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	$FPS.set_text("FPS: "+var2str(Engine.get_frames_per_second()))
 	
 	rotate_y(-relx*delta*sensitivity)
@@ -31,19 +31,19 @@ func _fixed_process(delta):
 			$Label.hide()
 		
 		if(Input.is_key_pressed(KEY_W)):
-			movement.z=-delta*4
+			movement.z=-delta*400
 		elif(Input.is_key_pressed(KEY_S)):
-			movement.z=delta*2
+			movement.z=delta*200
 		if(Input.is_key_pressed(KEY_A)):
-			movement.x=-delta*2
+			movement.x=-delta*200
 		if(Input.is_key_pressed(KEY_D)):
-			movement.x=delta*2
+			movement.x=delta*200
 		if(Input.is_key_pressed(KEY_SHIFT)):
-			movement.x*=1.5
-			movement.z*=1.5
+			movement.x*=2
+			movement.z*=2
 		if(Input.is_key_pressed(KEY_SPACE)&&$Ground.is_colliding()):
-			falling=0.1
-		elif($Ground.is_colliding()||is_colliding()):
+			falling=10
+		elif($Ground.is_colliding()||is_on_floor()):
 			falling=0
 		else:
 			falling+=gravity*delta
@@ -55,10 +55,7 @@ func _fixed_process(delta):
 			driving=true
 		
 		movement = Vector3(0, falling, 0)+(get_transform().basis*movement)
-		move(movement)
-		if(is_colliding()):
-			movement=movement.slide(get_collision_normal())
-			move(movement)
+		move_and_slide(movement)
 	
 	else:
 		set_translation(current_vehicle.get_node("Driver").get_global_transform().origin)
@@ -73,10 +70,10 @@ func _fixed_process(delta):
 
 
 func _input(event):
-	if(event.type == InputEvent.MOUSE_MOTION):
-		relx=event.relative_x
-		rely=event.relative_y
-	elif(event.type == InputEvent.MOUSE_BUTTON):
+	if(event is InputEventMouseMotion):
+		relx=event.relative.x
+		rely=event.relative.y
+	elif(event is InputEventMouseButton):
 		if(event.pressed==true && event.button_index==BUTTON_LEFT):
 			pass
 		elif(event.pressed==true && event.button_index==BUTTON_RIGHT):

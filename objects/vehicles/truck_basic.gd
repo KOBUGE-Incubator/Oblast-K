@@ -3,22 +3,22 @@ extends VehicleBody
 var enabled=false
 
 func _ready():
-	set_fixed_process(true)
+	set_physics_process(true)
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	if(enabled==true):
 		#Accel:
 		if(Input.is_key_pressed(KEY_W)):
 			set_brake(0)
-			set_engine_force(40)
+			set_engine_force(50)
 		elif(Input.is_key_pressed(KEY_S)):
 			set_brake(0)
-			set_engine_force(-20)
+			set_engine_force(-10)
 		elif(Input.is_key_pressed(KEY_SPACE)):
 			set_brake(1)
 		else:
 			set_engine_force(0)
-			set_brake(0.5)
+			set_brake(0)
 			
 		#Steering:
 		if(Input.is_key_pressed(KEY_A)&&get_steering()<0.3):

@@ -1,7 +1,7 @@
 
 extends Spatial
 
-var heightmapimg = Image()
+var heightmapimg = Image.new()
 var heightmap
 
 var posx=0

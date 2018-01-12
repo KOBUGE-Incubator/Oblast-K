@@ -10,10 +10,10 @@ func _physics_process(delta):
 		#Accel:
 		if(Input.is_key_pressed(KEY_W)):
 			set_brake(0)
-			set_engine_force(50)
+			set_engine_force(500)
 		elif(Input.is_key_pressed(KEY_S)):
 			set_brake(0)
-			set_engine_force(-10)
+			set_engine_force(-200)
 		elif(Input.is_key_pressed(KEY_SPACE)):
 			set_brake(1)
 		else:

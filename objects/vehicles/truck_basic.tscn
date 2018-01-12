@@ -41,6 +41,7 @@ flags_no_depth_test = false
 flags_use_point_size = false
 flags_world_triplanar = false
 flags_fixed_size = false
+flags_albedo_tex_force_srgb = false
 vertex_color_use_as_albedo = false
 vertex_color_is_srgb = false
 params_diffuse_mode = 0
@@ -91,6 +92,7 @@ flags_no_depth_test = false
 flags_use_point_size = false
 flags_world_triplanar = false
 flags_fixed_size = false
+flags_albedo_tex_force_srgb = false
 vertex_color_use_as_albedo = false
 vertex_color_is_srgb = false
 params_diffuse_mode = 0
@@ -310,6 +312,7 @@ flags_no_depth_test = false
 flags_use_point_size = false
 flags_world_triplanar = false
 flags_fixed_size = false
+flags_albedo_tex_force_srgb = false
 vertex_color_use_as_albedo = false
 vertex_color_is_srgb = false
 params_diffuse_mode = 0
@@ -360,6 +363,7 @@ flags_no_depth_test = false
 flags_use_point_size = false
 flags_world_triplanar = false
 flags_fixed_size = false
+flags_albedo_tex_force_srgb = false
 vertex_color_use_as_albedo = false
 vertex_color_is_srgb = false
 params_diffuse_mode = 0
@@ -379,9 +383,10 @@ metallic_texture_channel = 0
 roughness = 0.0
 roughness_texture_channel = 0
 emission_enabled = true
-emission = Color( 0, 0, 0, 1 )
+emission = Color( 1, 1, 1, 1 )
 emission_energy = 1.0
 emission_operator = 0
+emission_on_uv2 = false
 normal_enabled = false
 rim_enabled = false
 clearcoat_enabled = false
@@ -402,40 +407,60 @@ uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 proximity_fade_enable = false
 distance_fade_enable = false
+_sections_unfolded = [ "Emission" ]
 
 [node name="Truck" type="VehicleBody" groups=[
-"vehicle",
 "interactive",
+"vehicle",
 ]]
 
 input_ray_pickable = true
 input_capture_on_drag = false
 collision_layer = 1
 collision_mask = 1
-engine_force = 0.0
-brake = 0.0
-steering = 0.0
-mass = 40.0
+mode = 0
+mass = 408.163
 friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = false
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+axis_lock_linear_x = false
+axis_lock_linear_y = false
+axis_lock_linear_z = false
+axis_lock_angular_x = false
+axis_lock_angular_y = false
+axis_lock_angular_z = false
+linear_velocity = Vector3( 0, 0, 0 )
+linear_damp = -1.0
+angular_velocity = Vector3( 0, 0, 0 )
+angular_damp = -1.0
+engine_force = 0.0
+brake = 1.0
+steering = 0.0
 script = ExtResource( 1 )
 
-[node name="FL" type="VehicleWheel" parent="."]
+[node name="FL" type="VehicleWheel" parent="." index="0"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47581, -0.179554, 1.70479 )
 use_as_traction = false
 use_as_steering = true
-wheel_roll_influence = 0.1
+wheel_roll_influence = 0.5
 wheel_radius = 0.772
 wheel_rest_length = 0.05
-wheel_friction_slip = 10.5
-suspension_travel = 5.0
+wheel_friction_slip = 1.0
+suspension_travel = 1.0
 suspension_stiffness = 20.0
 suspension_max_force = 6000.0
-damping_compression = 0.83
+damping_compression = 0.5
 damping_relaxation = 0.88
 _sections_unfolded = [ "Wheel" ]
 
-[node name="FLmesh" type="MeshInstance" parent="FL"]
+[node name="FLmesh" type="MeshInstance" parent="FL" index="0"]
 
 transform = Transform( 5.48819e-08, 0.726932, 0, -0.726932, 5.48819e-08, 0, 0, 0, 0.726932, -0.0645578, -0.00653944, -0.00383461 )
 layers = 1
@@ -452,23 +477,23 @@ skeleton = NodePath("..")
 material/0 = SubResource( 2 )
 material/1 = SubResource( 3 )
 
-[node name="FR" type="VehicleWheel" parent="."]
+[node name="FR" type="VehicleWheel" parent="." index="1"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4933, -0.179554, 1.70479 )
 use_as_traction = false
 use_as_steering = true
-wheel_roll_influence = 0.1
+wheel_roll_influence = 0.5
 wheel_radius = 0.772
 wheel_rest_length = 0.05
-wheel_friction_slip = 10.5
-suspension_travel = 5.0
+wheel_friction_slip = 1.0
+suspension_travel = 1.0
 suspension_stiffness = 20.0
 suspension_max_force = 6000.0
-damping_compression = 0.83
+damping_compression = 0.5
 damping_relaxation = 0.88
 _sections_unfolded = [ "Wheel" ]
 
-[node name="FRmesh" type="MeshInstance" parent="FR"]
+[node name="FRmesh" type="MeshInstance" parent="FR" index="0"]
 
 transform = Transform( 8.66858e-09, -0.726932, 0, 0.726932, 8.66858e-09, 0, 0, 0, 0.726932, 0.0914395, -0.00653944, -0.00383461 )
 layers = 1
@@ -485,23 +510,23 @@ skeleton = NodePath("..")
 material/0 = SubResource( 2 )
 material/1 = SubResource( 3 )
 
-[node name="ML" type="VehicleWheel" parent="."]
+[node name="ML" type="VehicleWheel" parent="." index="2"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47581, -0.179554, -3.55996 )
 use_as_traction = true
 use_as_steering = false
-wheel_roll_influence = 0.1
+wheel_roll_influence = 0.5
 wheel_radius = 0.772
 wheel_rest_length = 0.05
-wheel_friction_slip = 10.5
+wheel_friction_slip = 1.0
 suspension_travel = 5.0
 suspension_stiffness = 10.0
 suspension_max_force = 6000.0
-damping_compression = 0.83
+damping_compression = 0.5
 damping_relaxation = 0.88
 _sections_unfolded = [ "Wheel" ]
 
-[node name="MLmesh" type="MeshInstance" parent="ML"]
+[node name="MLmesh" type="MeshInstance" parent="ML" index="0"]
 
 transform = Transform( 5.48819e-08, 0.726932, 0, -0.726932, 5.48819e-08, 0, 0, 0, 0.726932, -0.0645578, -0.00653944, -0.016099 )
 layers = 1
@@ -518,23 +543,23 @@ skeleton = NodePath("..")
 material/0 = SubResource( 2 )
 material/1 = SubResource( 3 )
 
-[node name="MR" type="VehicleWheel" parent="."]
+[node name="MR" type="VehicleWheel" parent="." index="3"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4933, -0.179554, -3.55996 )
 use_as_traction = true
 use_as_steering = false
-wheel_roll_influence = 0.1
+wheel_roll_influence = 0.5
 wheel_radius = 0.772
 wheel_rest_length = 0.05
-wheel_friction_slip = 10.5
+wheel_friction_slip = 1.0
 suspension_travel = 5.0
 suspension_stiffness = 10.0
 suspension_max_force = 6000.0
-damping_compression = 0.83
+damping_compression = 0.5
 damping_relaxation = 0.88
 _sections_unfolded = [ "Wheel" ]
 
-[node name="MRmesh" type="MeshInstance" parent="MR"]
+[node name="MRmesh" type="MeshInstance" parent="MR" index="0"]
 
 transform = Transform( 8.66858e-09, -0.726932, 0, 0.726932, 8.66858e-09, 0, 0, 0, 0.726932, 0.0914395, -0.00653944, -0.016099 )
 layers = 1
@@ -551,23 +576,23 @@ skeleton = NodePath("..")
 material/0 = SubResource( 2 )
 material/1 = SubResource( 3 )
 
-[node name="BL" type="VehicleWheel" parent="."]
+[node name="BL" type="VehicleWheel" parent="." index="4"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47581, -0.179554, -5.17848 )
 use_as_traction = true
 use_as_steering = false
-wheel_roll_influence = 0.1
+wheel_roll_influence = 0.5
 wheel_radius = 0.772
 wheel_rest_length = 0.05
-wheel_friction_slip = 10.5
+wheel_friction_slip = 1.0
 suspension_travel = 5.0
 suspension_stiffness = 10.0
 suspension_max_force = 6000.0
-damping_compression = 0.83
+damping_compression = 0.5
 damping_relaxation = 0.88
 _sections_unfolded = [ "Wheel" ]
 
-[node name="BLmesh" type="MeshInstance" parent="BL"]
+[node name="BLmesh" type="MeshInstance" parent="BL" index="0"]
 
 transform = Transform( 5.48819e-08, 0.726932, 0, -0.726932, 5.48819e-08, 0, 0, 0, 0.726932, -0.0645578, -0.00653944, -0.00282478 )
 layers = 1
@@ -584,23 +609,23 @@ skeleton = NodePath("..")
 material/0 = SubResource( 2 )
 material/1 = SubResource( 3 )
 
-[node name="BR" type="VehicleWheel" parent="."]
+[node name="BR" type="VehicleWheel" parent="." index="5"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4933, -0.179554, -5.17848 )
 use_as_traction = true
 use_as_steering = false
-wheel_roll_influence = 0.1
+wheel_roll_influence = 0.5
 wheel_radius = 0.772
-wheel_rest_length = 0.05
-wheel_friction_slip = 10.5
-suspension_travel = 5.0
-suspension_stiffness = 10.0
+wheel_rest_length = 0.1
+wheel_friction_slip = 1.0
+suspension_travel = 1.0
+suspension_stiffness = 20.0
 suspension_max_force = 6000.0
-damping_compression = 0.83
+damping_compression = 0.8
 damping_relaxation = 0.88
-_sections_unfolded = [ "Wheel" ]
+_sections_unfolded = [ "Damping", "Suspension", "Wheel" ]
 
-[node name="BRmesh" type="MeshInstance" parent="BR"]
+[node name="BRmesh" type="MeshInstance" parent="BR" index="0"]
 
 transform = Transform( 8.66858e-09, -0.726932, 0, 0.726932, 8.66858e-09, 0, 0, 0, 0.726932, 0.0914395, -0.00653944, -0.00282478 )
 layers = 1
@@ -617,7 +642,7 @@ skeleton = NodePath("..")
 material/0 = SubResource( 2 )
 material/1 = SubResource( 3 )
 
-[node name="Chassis" type="MeshInstance" parent="."]
+[node name="Chassis" type="MeshInstance" parent="." index="6"]
 
 layers = 1
 material_override = null
@@ -632,15 +657,16 @@ mesh = SubResource( 9 )
 skeleton = NodePath("..")
 material/0 = SubResource( 10 )
 material/1 = SubResource( 11 )
+_sections_unfolded = [ "material" ]
 
-[node name="CollisionPolygon" type="CollisionPolygon" parent="."]
+[node name="CollisionPolygon" type="CollisionPolygon" parent="." index="7"]
 
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
 depth = 3.6
 disabled = false
 polygon = PoolVector2Array( -3.3, 0, 6.5, 0, 6.5, 1, -1, 1, -1, 3.3, -3.3, 3.3, -3.8, 1.5, -3.8, 0.5 )
 
-[node name="Driver" type="Spatial" parent="."]
+[node name="Driver" type="Spatial" parent="." index="8"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.791372, 0.617864, 2.51172 )
 

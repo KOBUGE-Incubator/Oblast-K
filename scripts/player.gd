@@ -8,6 +8,7 @@ var gravity = -20
 var falling = 0
 var driving = false
 var current_vehicle
+var walk_speed=150
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -31,13 +32,13 @@ func _physics_process(delta):
 			$Label.hide()
 		
 		if(Input.is_key_pressed(KEY_W)):
-			movement.z=-delta*400
+			movement.z=-delta*walk_speed
 		elif(Input.is_key_pressed(KEY_S)):
-			movement.z=delta*200
+			movement.z=delta*walk_speed
 		if(Input.is_key_pressed(KEY_A)):
-			movement.x=-delta*200
+			movement.x=-delta*walk_speed
 		if(Input.is_key_pressed(KEY_D)):
-			movement.x=delta*200
+			movement.x=delta*walk_speed
 		if(Input.is_key_pressed(KEY_SHIFT)):
 			movement.x*=2
 			movement.z*=2
@@ -59,6 +60,8 @@ func _physics_process(delta):
 	
 	else:
 		set_translation(current_vehicle.get_node("Driver").get_global_transform().origin)
+		#TODO: Make this better, possibly with interpolated camera or childing to vehicle
+		
 		if(Input.is_key_pressed(KEY_R)):
 			current_vehicle.enabled=false
 			driving=false

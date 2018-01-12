@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/uniformed.obj-9f4f8085afbff70e14ac88783f967222.mesh"
+
+[deps]
+
+files=[ "res://.import/uniformed.obj-9f4f8085afbff70e14ac88783f967222.mesh" ]
+
+source_file="res://objects/misc/uniformed.obj"
+source_md5="cd84cc92c4a47235859520dedced6f6d"
+
+dest_files=[ "res://.import/uniformed.obj-9f4f8085afbff70e14ac88783f967222.mesh", "res://.import/uniformed.obj-9f4f8085afbff70e14ac88783f967222.mesh" ]
+dest_md5="fb8de10ddf7ef50dd149c916a9661de6"
+
+[params]
+
+generate_tangents=true

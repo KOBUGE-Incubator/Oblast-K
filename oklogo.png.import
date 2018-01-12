@@ -6,7 +6,11 @@ path="res://.import/oklogo.png-6ab123ce8596f8fcb679e3457c651a27.stex"
 
 [deps]
 
+source_file="res://oklogo.png"
 source_md5="51c6020cc7c3939f4c0e43342e83b18d"
+
+dest_files=[ "res://.import/oklogo.png-6ab123ce8596f8fcb679e3457c651a27.stex" ]
+dest_md5="b96852b6b968eb6aa3878fdbf50ef1e4"
 
 [params]
 

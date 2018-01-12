@@ -6,7 +6,11 @@ path="res://.import/map2.png-b6434d4df509dad7455f8b3a1659d88a.stex"
 
 [deps]
 
+source_file="res://scenery/map2.png"
 source_md5="9366c21d20f9ee7f801ba7eba9c9a9d2"
+
+dest_files=[ "res://.import/map2.png-b6434d4df509dad7455f8b3a1659d88a.stex" ]
+dest_md5="307d809f4e33fc19c2cd7c41ca6b9ce3"
 
 [params]
 

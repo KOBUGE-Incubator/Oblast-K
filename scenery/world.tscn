@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://objects/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/buildings/hangar.tscn" type="PackedScene" id=2]
-[ext_resource path="res://objects/npc.tscn" type="PackedScene" id=3]
-[ext_resource path="res://objects/vehicles/truck_basic.tscn" type="PackedScene" id=4]
-[ext_resource path="res://objects/misc/tree.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/buildings/container.tscn" type="PackedScene" id=3]
+[ext_resource path="res://objects/npc.tscn" type="PackedScene" id=4]
+[ext_resource path="res://objects/vehicles/truck_basic.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/misc/tree.tscn" type="PackedScene" id=6]
 
 [sub_resource type="ProceduralSky" id=1]
 
@@ -168,7 +169,7 @@ _sections_unfolded = [ "Albedo" ]
 
 plane = Plane( 0, 1, 0, 0 )
 
-[node name="Spatial" type="Spatial" index="0"]
+[node name="Spatial" type="Spatial"]
 
 [node name="Player" parent="." index="0" instance=ExtResource( 1 )]
 
@@ -243,8 +244,6 @@ disabled = false
 
 [node name="Buildings" type="Spatial" parent="." index="4"]
 
-editor/display_folded = true
-
 [node name="HangarBuilding" parent="Buildings" index="0" instance=ExtResource( 2 )]
 
 transform = Transform( 0.605416, 0, 0.795909, 0, 1, 0, -0.795909, 0, 0.605416, 7.44347, 0, 0 )
@@ -253,15 +252,23 @@ transform = Transform( 0.605416, 0, 0.795909, 0, 1, 0, -0.795909, 0, 0.605416, 7
 
 transform = Transform( 0.968395, 0, 0.249422, 0, 1, 0, -0.249422, 0, 0.968395, 16.6193, 0, 8.28555 )
 
+[node name="Container" parent="Buildings" index="2" instance=ExtResource( 3 )]
+
+transform = Transform( 0.857896, 0, 0.513823, 0, 1, 0, -0.513823, 0, 0.857896, -0.247039, 1.96611, -5.1245 )
+
+[node name="Container2" parent="Buildings" index="3" instance=ExtResource( 3 )]
+
+transform = Transform( 0.27052, 0, 0.962714, 0, 1, 0, -0.962714, 0, 0.27052, -17.3344, 1.96611, -10.7479 )
+
 [node name="NPCs" type="Spatial" parent="." index="5"]
 
 editor/display_folded = true
 
-[node name="NPC" parent="NPCs" index="0" instance=ExtResource( 3 )]
+[node name="NPC" parent="NPCs" index="0" instance=ExtResource( 4 )]
 
 transform = Transform( -0.571739, 0, 0.820436, 0, 1, 0, -0.820436, 0, -0.571739, 6.46, 0, 0.994462 )
 
-[node name="NPC2" parent="NPCs" index="1" instance=ExtResource( 3 )]
+[node name="NPC2" parent="NPCs" index="1" instance=ExtResource( 4 )]
 
 transform = Transform( -0.983845, 0, -0.179025, 0, 1, 0, 0.179025, 0, -0.983845, 9.42629, 0, 10.4463 )
 
@@ -269,37 +276,39 @@ transform = Transform( -0.983845, 0, -0.179025, 0, 1, 0, 0.179025, 0, -0.983845,
 
 editor/display_folded = true
 
-[node name="Truck" parent="Vehicles" index="0" instance=ExtResource( 4 )]
+[node name="Truck" parent="Vehicles" index="0" instance=ExtResource( 5 )]
 
 transform = Transform( 0.74061, 0, -0.671934, 0, 1, 0, 0.671934, 0, 0.74061, 0, 0.860488, 9.52878 )
 
 [node name="Vegetation" type="Spatial" parent="." index="7"]
 
-[node name="StaticBody" parent="Vegetation" index="0" instance=ExtResource( 5 )]
+editor/display_folded = true
+
+[node name="StaticBody" parent="Vegetation" index="0" instance=ExtResource( 6 )]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.3476, 0, 18.5918 )
 
-[node name="StaticBody2" parent="Vegetation" index="1" instance=ExtResource( 5 )]
+[node name="StaticBody2" parent="Vegetation" index="1" instance=ExtResource( 6 )]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.3476, 0, -14.3806 )
 
-[node name="StaticBody3" parent="Vegetation" index="2" instance=ExtResource( 5 )]
+[node name="StaticBody3" parent="Vegetation" index="2" instance=ExtResource( 6 )]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.84173, 0, -14.3806 )
 
-[node name="StaticBody4" parent="Vegetation" index="3" instance=ExtResource( 5 )]
+[node name="StaticBody4" parent="Vegetation" index="3" instance=ExtResource( 6 )]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6694, 0, 22.1455 )
 
-[node name="StaticBody5" parent="Vegetation" index="4" instance=ExtResource( 5 )]
+[node name="StaticBody5" parent="Vegetation" index="4" instance=ExtResource( 6 )]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63.0001, 0, 22.1455 )
 
-[node name="StaticBody6" parent="Vegetation" index="5" instance=ExtResource( 5 )]
+[node name="StaticBody6" parent="Vegetation" index="5" instance=ExtResource( 6 )]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -52.2535, 0, -53.7336 )
 
-[node name="StaticBody7" parent="Vegetation" index="6" instance=ExtResource( 5 )]
+[node name="StaticBody7" parent="Vegetation" index="6" instance=ExtResource( 6 )]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 63.0487, 0, -25.5631 )
 

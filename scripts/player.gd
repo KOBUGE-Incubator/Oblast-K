@@ -43,7 +43,7 @@ func _physics_process(delta):
 			movement.x*=2
 			movement.z*=2
 		if(Input.is_key_pressed(KEY_SPACE)&&$Ground.is_colliding()):
-			falling=10
+			falling=7
 		elif($Ground.is_colliding()||is_on_floor()):
 			falling=0
 		else:

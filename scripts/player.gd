@@ -25,29 +25,42 @@ func _physics_process(delta):
 	
 	movement=Vector3(0,0,0)
 	if(driving==false):
-		#Show interaction hint
+		# ==interaction hint==
 		if($Camera/InteractRay.is_colliding() && $Camera/InteractRay.get_collider().is_in_group("interactive")):
 			$Label.show()
 		else:
 			$Label.hide()
 		
-		if(Input.is_key_pressed(KEY_W)):
+		# ==Basic movement==
+		if(Input.is_key_pressed(KEY_W)): #Forward
 			movement.z=-delta*walk_speed
-		elif(Input.is_key_pressed(KEY_S)):
+		if(Input.is_key_pressed(KEY_S)): #Backwards
 			movement.z=delta*walk_speed
-		if(Input.is_key_pressed(KEY_A)):
+		if(Input.is_key_pressed(KEY_A)): #Left
 			movement.x=-delta*walk_speed
-		if(Input.is_key_pressed(KEY_D)):
+		if(Input.is_key_pressed(KEY_D)): #Right
 			movement.x=delta*walk_speed
-		if(Input.is_key_pressed(KEY_SHIFT)):
+		if(Input.is_key_pressed(KEY_SHIFT)): #Run faster
 			movement.x*=2
 			movement.z*=2
+		
+		# ==Jumping, falling and climbing==
 		if(Input.is_key_pressed(KEY_SPACE)&&$Ground.is_colliding()):
 			falling=7
 		elif($Ground.is_colliding()||is_on_floor()):
 			falling=0
 		else:
 			falling+=gravity*delta
+		#Check if climbing is possible:
+		for coll in get_slide_count():
+			if(get_slide_collision(coll).get_collider().is_in_group("ladder")):
+				if(Input.is_key_pressed(KEY_W)):
+					falling=4
+				elif(Input.is_key_pressed(KEY_SHIFT)):
+					falling=-3
+				else:
+					falling=0
+		
 		if(Input.is_key_pressed(KEY_F)&&$Label.is_visible()):
 			$Label.hide()
 			current_vehicle = $Camera/InteractRay.get_collider()

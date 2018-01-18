@@ -9,8 +9,10 @@ var falling = 0
 var driving = false
 var current_vehicle
 var walk_speed=150
+var parent
 
 func _ready():
+	parent=get_parent()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Ground.add_exception(self)
 	$Camera/InteractRay.add_exception(self)
@@ -61,25 +63,31 @@ func _physics_process(delta):
 				else:
 					falling=0
 		
+		movement = Vector3(0, falling, 0)+(get_transform().basis*movement)
+		move_and_slide(movement)
+		
 		if(Input.is_key_pressed(KEY_F)&&$Label.is_visible()):
 			$Label.hide()
 			current_vehicle = $Camera/InteractRay.get_collider()
 			add_collision_exception_with(current_vehicle) #Disable collision
 			current_vehicle.enabled=true
 			driving=true
+			get_parent().remove_child(self)
+			current_vehicle.add_child(self)
+			set_translation(current_vehicle.get_node("Driver").get_translation())
+			set_rotation(Vector3(0,PI,0))
+
 		
-		movement = Vector3(0, falling, 0)+(get_transform().basis*movement)
-		move_and_slide(movement)
-	
 	else:
-		set_translation(current_vehicle.get_node("Driver").get_global_transform().origin)
-		#TODO: Make this better, possibly with interpolated camera or childing to vehicle
-		
 		if(Input.is_key_pressed(KEY_R)):
 			current_vehicle.enabled=false
 			driving=false
 			remove_collision_exception_with(current_vehicle) #Enable collision, throws player out of the vehicle
 			#TODO: Exit the vehicle in a more controlled way
+			get_parent().remove_child(self)
+			parent.add_child(self)
+			set_rotation(Vector3(0, PI+current_vehicle.get_rotation().y, 0))
+			set_translation(current_vehicle.get_node("Driver").get_global_transform().origin)
 	
 	relx=0
 	rely=0

@@ -1,15 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://objects/crosshair.png" type="Texture" id=2]
 [ext_resource path="res://objects/misc/uniformed.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://objects/inventory.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 
 radius = 0.270575
 height = 1.30564
 
-[node name="Player" type="KinematicBody" index="0"]
+[node name="Player" type="KinematicBody"]
 
 input_ray_pickable = true
 input_capture_on_drag = false
@@ -54,6 +55,11 @@ exclude_parent = true
 cast_to = Vector3( 0, 0, -4 )
 collision_mask = 1
 
+[node name="Hand" type="Spatial" parent="Camera" index="1"]
+
+transform = Transform( -0.107408, -0.503214, -0.857461, -0.45638, 0.791171, -0.407143, 0.883278, 0.347597, -0.314635, 0.21361, -0.137685, -0.46887 )
+_sections_unfolded = [ "Transform" ]
+
 [node name="Sprite" type="Sprite" parent="." index="2"]
 
 position = Vector2( 960, 540 )
@@ -79,6 +85,7 @@ margin_right = 118.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 2
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "FPS:"
@@ -99,6 +106,7 @@ margin_right = 1050.0
 margin_bottom = 546.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 2
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Press F to interact"
@@ -124,5 +132,9 @@ skeleton = NodePath("..")
 material/0 = null
 material/1 = null
 _sections_unfolded = [ "Transform" ]
+
+[node name="Inventory" parent="." index="7" instance=ExtResource( 4 )]
+
+visible = false
 
 

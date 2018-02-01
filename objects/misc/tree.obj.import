@@ -12,7 +12,7 @@ source_file="res://objects/misc/tree.obj"
 source_md5="a6dfae3cd6676e8de850cee6980dcb53"
 
 dest_files=[ "res://.import/tree.obj-5a4f13fcb8d2a7027b2c88c7801e72a3.mesh", "res://.import/tree.obj-5a4f13fcb8d2a7027b2c88c7801e72a3.mesh" ]
-dest_md5="e083c0096452d766857fdbde59a86088"
+dest_md5="19e76b4af4206b6436aa236e8c5aeb44"
 
 [params]
 

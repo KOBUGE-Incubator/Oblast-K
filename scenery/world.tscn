@@ -170,7 +170,7 @@ _sections_unfolded = [ "Albedo" ]
 
 plane = Plane( 0, 1, 0, 0 )
 
-[node name="Spatial" type="Spatial" index="0"]
+[node name="Spatial" type="Spatial"]
 
 [node name="Player" parent="." index="0" instance=ExtResource( 1 )]
 

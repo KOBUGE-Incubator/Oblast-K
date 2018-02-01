@@ -92,16 +92,23 @@ func _physics_process(delta):
 	relx=0
 	rely=0
 
-
 func _input(event):
-	if(event is InputEventMouseMotion):
+	if(event is InputEventMouseMotion && !$Inventory.visible):
 		relx=event.relative.x
 		rely=event.relative.y
 	elif(event is InputEventMouseButton):
-		if(event.pressed==true && event.button_index==BUTTON_LEFT):
+		if(event.pressed==true && event.button_index==BUTTON_LEFT && !$Inventory.visible):
 			pass
 		elif(event.pressed==true && event.button_index==BUTTON_RIGHT):
 			$Camera.set_perspective(39,0.1,3000)
 		elif(event.pressed==false && event.button_index==BUTTON_RIGHT):
 			$Camera.set_perspective(60,0.1,3000)
 		
+	elif(event is InputEventKey):
+		if(Input.is_key_pressed(KEY_I)):
+			if($Inventory.visible):
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+				$Inventory.hide()
+			else:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				$Inventory.show()

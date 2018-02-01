@@ -1,0 +1,11 @@
+[Tofu]
+description="This Tofu looks very fresh."
+edible=20
+image="res://objects/misc/tofu.png"
+object="res://objects/misc/tofu.tscn"
+
+[Wrench]
+description="A standard wrench."
+edible=0
+image="res://objects/tools/wrench.png"
+object="res://objects/tools/wrench.tscn"

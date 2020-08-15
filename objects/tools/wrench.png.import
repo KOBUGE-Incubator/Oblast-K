@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/wrench.png-b4d05455dee31b73dd5831217392d436.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://objects/tools/wrench.png"
-source_md5="2efcd14fa061ac0e5fe12c53de46ed0f"
-
 dest_files=[ "res://.import/wrench.png-b4d05455dee31b73dd5831217392d436.stex" ]
-dest_md5="ec5fff3df3a49aa295528e8d357ca697"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true

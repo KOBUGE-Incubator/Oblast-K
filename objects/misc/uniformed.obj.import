@@ -9,11 +9,11 @@ path="res://.import/uniformed.obj-9f4f8085afbff70e14ac88783f967222.mesh"
 files=[ "res://.import/uniformed.obj-9f4f8085afbff70e14ac88783f967222.mesh" ]
 
 source_file="res://objects/misc/uniformed.obj"
-source_md5="cd84cc92c4a47235859520dedced6f6d"
-
 dest_files=[ "res://.import/uniformed.obj-9f4f8085afbff70e14ac88783f967222.mesh", "res://.import/uniformed.obj-9f4f8085afbff70e14ac88783f967222.mesh" ]
-dest_md5="e157f63014b23b9c2561390bc7e01b46"
 
 [params]
 
 generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

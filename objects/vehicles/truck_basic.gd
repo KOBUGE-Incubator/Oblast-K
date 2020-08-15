@@ -21,9 +21,9 @@ func _physics_process(delta):
 			set_brake(0)
 			
 		#Steering:
-		if(Input.is_key_pressed(KEY_A)&&get_steering()<0.3):
+		if(Input.is_key_pressed(KEY_A)&&get_steering()<0.5):
 			set_steering(get_steering()+delta*0.3)
-		elif(Input.is_key_pressed(KEY_D)&&get_steering()>-0.3):
+		elif(Input.is_key_pressed(KEY_D)&&get_steering()>-0.5):
 			set_steering(get_steering()-delta*0.3)
 		else:
 			set_steering(get_steering()-sign(get_steering())*delta)

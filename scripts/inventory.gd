@@ -10,7 +10,6 @@ var current_object
 func _ready():
 	var err = itemdef.load("res://objects/itemdef.def")
 	if(err==OK):
-		var items
 		for items in itemdef.get_sections():
 			add_item(items)
 	else:
